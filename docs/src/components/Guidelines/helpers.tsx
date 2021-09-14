@@ -1,5 +1,6 @@
 import React from "react";
 import { imageWrapperClass } from "gatsby-remark-images/constants";
+import { css } from "styled-components";
 
 import { Content } from ".";
 
@@ -15,4 +16,23 @@ export const extractContent = data => {
     },
     { images: [], content: null },
   );
+};
+
+export const resolveBorders = ({ type, theme, coloredBorder }) => {
+  if (coloredBorder) {
+    if (type === "do")
+      return css`
+        border-left: 3px solid ${theme.orbit.paletteGreenNormal};
+      `;
+
+    if (type === "dont") {
+      return css`
+        border-left: 3px solid ${theme.orbit.paletteRedNormal};
+      `;
+    }
+  }
+
+  return css`
+    border-left: 3px solid ${theme.orbit.paletteInkLight};
+  `;
 };

@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 
 const StyledWrapper = styled.div`
   ${({ theme }) => css`
-    border-left: 4px solid ${theme.orbit.paletteInkLight};
+    border-left: 3px solid ${theme.orbit.paletteInkLight};
     padding: ${theme.orbit.spaceMedium} 0;
     background: ${theme.orbit.paletteCloudLight};
     border-radius: ${theme.orbit.borderRadiusLarge};
