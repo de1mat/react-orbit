@@ -2,31 +2,34 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { CheckCircle, CloseCircle } from "@kiwicom/orbit-components/icons";
 import { Stack, Text, Heading } from "@kiwicom/orbit-components";
-import { imageWrapperClass } from "gatsby-remark-images/constants";
 
 import HeadingWithLink from "../HeadingWithLink";
 import { slugify } from "../../utils/common";
+import { extractContent } from "./helpers";
 
 export interface GuidelineType {
   type: "do" | "dont";
 }
-
+export interface Content {
+  images: React.ReactNode[];
+  content: React.ReactNode;
+}
 interface GuidelineProps extends GuidelineType {
   title: string;
   children: React.ReactNode;
 }
 
+interface WrapperProps extends GuidelineType {
+  border: boolean;
+}
+
 const StyledComponent = styled.div`
   ${({ theme }) => css`
-    background-color: ${theme.orbit.paletteCloudLight};
+    background: ${theme.orbit.paletteCloudLight};
     border-radius: ${theme.orbit.spaceMedium};
     padding: ${theme.orbit.spaceMedium} 0;
   `}
 `;
-
-interface WrapperProps extends GuidelineType {
-  border: boolean;
-}
 
 const Wrapper = styled.div<WrapperProps>`
   ${({ border, theme, type }) => css`
@@ -54,10 +57,10 @@ interface ImageContainerProps {
 const ImageContainer = styled.div<ImageContainerProps>`
   ${({ noLeftPadding, theme }) => css`
     padding: ${noLeftPadding ? theme.orbit.spaceMedium : theme.orbit.spaceLarge};
-    ${noLeftPadding && "padding-left: 0;"}
+    ${noLeftPadding && "padding-left: 0"};
     width: 100%;
     max-width: 360px;
-    background-color: ${theme.orbit.paletteWhite};
+    background: ${theme.orbit.paletteWhite};
     border-radius: ${theme.orbit.spaceMedium};
   `}
 `;
@@ -83,30 +86,7 @@ export const DoDontHeader = ({ type }: GuidelineType) => (
 );
 
 export default function Guideline({ type = "do", title, children }: GuidelineProps) {
-  const isImage = object => {
-    if (object.props?.children?.props?.className === imageWrapperClass) return true;
-    return false;
-  };
-
-  interface Content {
-    images: React.ReactNode[];
-    content: React.ReactNode;
-  }
-
-  const extractContent = data => {
-    return React.Children.toArray(data).reduce(
-      (acc: Content, cur) => {
-        if (isImage(cur)) acc.images.push(cur);
-        else acc.content = cur;
-
-        return acc;
-      },
-      { images: [], content: null },
-    );
-  };
-
   const { images, content } = extractContent(children);
-
   const typeOpposite = type === "do" ? "dont" : "do";
 
   return (
