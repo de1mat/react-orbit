@@ -1,10 +1,11 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { blockquote } from "../../mdx-components";
 
 const StyledWrapper = styled.div`
   ${({ theme }) => css`
     border-left: 3px solid ${theme.orbit.paletteInkLight};
-    padding: ${theme.orbit.spaceMedium} 0;
+    padding: ${theme.orbit.spaceMedium};
     background: ${theme.orbit.paletteCloudLight};
     border-radius: ${theme.orbit.borderRadiusLarge};
   `};
@@ -12,10 +13,11 @@ const StyledWrapper = styled.div`
 
 const StyledContent = styled.div`
   ${({ theme }) => css`
-    padding: ${theme.orbit.spaceXSmall} ${theme.orbit.spaceLarge} ${theme.orbit.spaceXSmall}
-      ${theme.orbit.spaceMedium};
     font-style: italic;
     font-weight: 500;
+    blockquote p {
+      font-size: 18px;
+    }
     blockquote > * + *,
     figcaption {
       margin-top: ${theme.orbit.spaceXSmall};
