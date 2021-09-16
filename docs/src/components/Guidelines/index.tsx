@@ -13,7 +13,7 @@ import useTheme from "@kiwicom/orbit-components/lib/hooks/useTheme";
 
 import HeadingWithLink from "../HeadingWithLink";
 import { slugify } from "../../utils/common";
-import { extractContent, resolveBorders, resolveColumns } from "./helpers";
+import { extractContent, resolveBorders } from "./helpers";
 
 export interface GuidelineType {
   type: "do" | "dont";
@@ -40,22 +40,14 @@ const StyledComponent = styled.div<GuidelineComponent>`
   ${({ theme }) => css`
     background: ${theme.orbit.paletteCloudLight};
     border-radius: ${theme.orbit.borderRadiusLarge};
-    padding: ${theme.orbit.spaceMedium} 0;
+    padding: ${theme.orbit.spaceMedium};
     ${resolveBorders};
-  `}
-`;
-
-const StyledWrapper = styled.div<GuidelineType>`
-  ${({ theme }) => css`
-    display: flex;
-    padding: ${theme.orbit.spaceXSmall} ${theme.orbit.spaceLarge} ${theme.orbit.spaceXSmall}
-      ${theme.orbit.spaceMedium};
   `}
 `;
 
 const StyledImageContainer = styled.div<ImageContainerProps>`
   ${({ theme, type }) => css`
-    padding: 10%;
+    padding: ${theme.orbit.spaceXLarge} 10%;
     width: 100%;
     background: ${theme.orbit.paletteWhite};
     border-radius: ${theme.orbit.borderRadiusNormal};
@@ -95,52 +87,53 @@ export default function Guideline({ type = "do", title, children }: GuidelinePro
 
   return (
     <StyledComponent id={slugify(title)} type={type} coloredBorder={!(images.length > 1)}>
-      <StyledWrapper type={type}>
-        <Grid columns={resolveColumns(images.length, isDesktop)} gap={theme.orbit.spaceXLarge}>
-          <Stack flex shrink direction="column">
-            <Stack
-              justify="between"
-              direction="row-reverse"
-              spacing="XSmall"
-              tablet={{ direction: "row", justify: "start" }}
-            >
-              {images.length < 2 &&
-                (type === "do" ? (
-                  <CheckCircle color="success" ariaLabel="Do" />
-                ) : (
-                  <CloseCircle color="critical" ariaLabel="Don't" />
-                ))}
-              <HeadingWithLink noId>
-                <Heading as="h3" type="title3">
-                  {title}
-                </Heading>
-              </HeadingWithLink>
-            </Stack>
-            {content}
+      <Grid
+        columns={isDesktop ? `repeat(${images.length + 1}, 1fr)` : "1fr"}
+        gap={theme.orbit.spaceXLarge}
+      >
+        <Stack flex shrink direction="column">
+          <Stack
+            justify="between"
+            direction="row-reverse"
+            spacing="XSmall"
+            tablet={{ direction: "row", justify: "start" }}
+          >
+            {images.length < 2 &&
+              (type === "do" ? (
+                <CheckCircle color="success" ariaLabel="Do" />
+              ) : (
+                <CloseCircle color="critical" ariaLabel="Don't" />
+              ))}
+            <HeadingWithLink noId>
+              <Heading as="h3" type="title3">
+                {title}
+              </Heading>
+            </HeadingWithLink>
           </Stack>
-          {images.length === 1 && (
-            <StyledImageContainer type={type} middleAlign>
-              {images}
-            </StyledImageContainer>
-          )}
-          {images.length > 1 && (
-            <>
-              <Stack shrink direction="column" spacing="XSmall">
-                <DoDontHeader type={type} />
-                <StyledImageContainer type={type}>
-                  <StyledImage>{images[0]}</StyledImage>
-                </StyledImageContainer>
-              </Stack>
-              <Stack shrink direction="column" spacing="XSmall">
-                <DoDontHeader type={typeOpposite} />
-                <StyledImageContainer type={typeOpposite}>
-                  <StyledImage>{images[1]}</StyledImage>
-                </StyledImageContainer>
-              </Stack>
-            </>
-          )}
-        </Grid>
-      </StyledWrapper>
+          {content}
+        </Stack>
+        {images.length === 1 && (
+          <StyledImageContainer type={type} middleAlign>
+            {images}
+          </StyledImageContainer>
+        )}
+        {images.length > 1 && (
+          <>
+            <Stack shrink direction="column" spacing="XSmall">
+              <DoDontHeader type={type} />
+              <StyledImageContainer type={type}>
+                <StyledImage>{images[0]}</StyledImage>
+              </StyledImageContainer>
+            </Stack>
+            <Stack shrink direction="column" spacing="XSmall">
+              <DoDontHeader type={typeOpposite} />
+              <StyledImageContainer type={typeOpposite}>
+                <StyledImage>{images[1]}</StyledImage>
+              </StyledImageContainer>
+            </Stack>
+          </>
+        )}
+      </Grid>
     </StyledComponent>
   );
 }

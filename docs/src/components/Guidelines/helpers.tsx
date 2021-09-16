@@ -37,14 +37,3 @@ export const resolveBorders = () => {
     `)}
   `;
 };
-
-export const resolveColumns = (images, isDesktop) => {
-  if (isDesktop) {
-    if (images === 1) return `1fr 1fr`;
-    if (images === 2) return `1fr 1fr 1fr`;
-
-    return `1fr`;
-  }
-
-  return `1fr`;
-};

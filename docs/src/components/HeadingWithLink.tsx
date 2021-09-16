@@ -10,7 +10,7 @@ const StyledAnchor = styled.a`
     display: block;
     svg {
       opacity: 0;
-      transition: all ${theme.orbit.durationFast} ease-in;
+      transition: fill ${theme.orbit.durationFast} ease-in;
     }
     :hover,
     :active,
