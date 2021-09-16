@@ -3,35 +3,21 @@ import styled, { css } from "styled-components";
 import { Stack } from "@kiwicom/orbit-components";
 import { Link as LinkIcon } from "@kiwicom/orbit-components/icons";
 import { SpaceAfter } from "@kiwicom/orbit-components/lib/common/common";
-
 import { getTextFromChildren, slugify } from "../utils/common";
 
-export const StyledAnchorWrapper = styled.div`
-  svg {
-    opacity: 0;
-  }
-
-  &:hover svg {
-    opacity: 1;
-  }
-`;
-
-const StyledAnchor = styled(({ className, children, title, href }) => (
-  <a className={className} title={title} href={href}>
-    {children}
-  </a>
-))`
+const StyledAnchor = styled.a`
   ${({ theme }) => css`
-    display: inline-block;
-    padding: 10px;
-    margin: -10px;
-    margin-left: 1px;
+    display: block;
+    svg {
+      opacity: 0;
+      transition: all ${theme.orbit.durationFast} ease-in;
+    }
     :hover,
     :active,
     :focus {
       outline: none;
       svg {
-        transition: fill ${theme.orbit.durationFast} ease-in;
+        opacity: 1;
         fill: ${theme.orbit.paletteProductNormal};
       }
     }
@@ -45,17 +31,15 @@ interface Props extends SpaceAfter {
 
 const HeadingWithLink = ({ children, noId, spaceAfter = "none" }: Props) => {
   const headingText = getTextFromChildren(children);
-  const slugifiedText = slugify(headingText);
+  const slug = slugify(headingText);
 
   return (
-    <StyledAnchorWrapper id={noId ? "" : slugifiedText}>
-      <Stack flex spacing="none" align="center" spaceAfter={spaceAfter}>
+    <StyledAnchor id={noId ? "" : slug} href={`#${slug}`} title={`Link to heading: ${headingText}`}>
+      <Stack inline spacing="XSmall" align="center" spaceAfter={spaceAfter}>
         {children}
-        <StyledAnchor href={`#${slugifiedText}`} title={`Link to heading: ${headingText}`}>
-          <LinkIcon />
-        </StyledAnchor>
+        <LinkIcon />
       </Stack>
-    </StyledAnchorWrapper>
+    </StyledAnchor>
   );
 };
 

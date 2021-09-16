@@ -19,33 +19,21 @@ export const extractContent = data => {
   );
 };
 
-const setBorders = isMobile => ({ coloredBorder, type, theme }) => {
-  const position = isMobile ? "top" : "left";
-
+const setBorder = ({ coloredBorder, type, theme }) => {
   if (coloredBorder) {
-    if (type === "do")
-      return css`
-        border-${position}: 3px solid ${theme.orbit.paletteGreenNormal};
-      `;
-
-    if (type === "dont") {
-      return css`
-        border-${position}: 3px solid ${theme.orbit.paletteRedNormal};
-      `;
-    }
+    if (type === "do") return `${theme.orbit.paletteGreenNormal}`;
+    if (type === "dont") return `${theme.orbit.paletteRedNormal}`;
   }
 
-  return css`
-    border-${position}: 3px solid ${theme.orbit.paletteInkLight};
-  `;
+  return theme.orbit.paletteInkLight;
 };
 
 export const resolveBorders = () => {
   return css`
-    ${setBorders(true)};
+    border-top: 3px solid ${setBorder};
     ${mq.desktop(css`
       border-top: none;
-      ${setBorders(false)};
+      border-left: 3px solid ${setBorder};
     `)}
   `;
 };
