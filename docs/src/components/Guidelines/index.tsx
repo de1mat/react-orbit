@@ -104,13 +104,15 @@ export default function Guideline({ type = "do", title, children }: GuidelinePro
               ) : (
                 <CloseCircle color="critical" ariaLabel="Don't" />
               ))}
-            <HeadingWithLink noId>
-              <Heading as="h3" type="title3">
-                {title}
-              </Heading>
-            </HeadingWithLink>
+            <Stack>
+              <HeadingWithLink noId>
+                <Heading as="h3" type="title3">
+                  {title}
+                </Heading>
+              </HeadingWithLink>
+              {content}
+            </Stack>
           </Stack>
-          {content}
         </Stack>
         {images.length === 1 && (
           <StyledImageContainer type={type} middleAlign>

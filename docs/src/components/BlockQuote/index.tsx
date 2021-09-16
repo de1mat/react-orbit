@@ -1,6 +1,5 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { blockquote } from "../../mdx-components";
 
 const StyledWrapper = styled.div`
   ${({ theme }) => css`
