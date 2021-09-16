@@ -3,9 +3,10 @@ import styled, { css } from "styled-components";
 import { Stack } from "@kiwicom/orbit-components";
 import { Link as LinkIcon } from "@kiwicom/orbit-components/icons";
 import { SpaceAfter } from "@kiwicom/orbit-components/lib/common/common";
+
 import { getTextFromChildren, slugify } from "../utils/common";
 
-const StyledAnchor = styled.a`
+export const StyledAnchor = styled.a`
   ${({ theme }) => css`
     display: block;
     svg {
